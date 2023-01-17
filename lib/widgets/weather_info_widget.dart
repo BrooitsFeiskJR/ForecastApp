@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:forecast_app/model/forecast_data_current.dart';
 
 class InfoWeatherContainer extends StatelessWidget {
-  const InfoWeatherContainer({super.key});
+  final WeatherDataCurrent weatherDataCurrent;
+  const InfoWeatherContainer({super.key, required this.weatherDataCurrent});
 
   @override
   Widget build(BuildContext context) {
@@ -15,19 +17,19 @@ class InfoWeatherContainer extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _renderInfo("Wind", "8km/h"),
+          _renderInfo("Wind", "${weatherDataCurrent.current.windSpeed}km/h"),
           Container(
             height: 30,
             width: 2,
             color: Color.fromARGB(255, 9, 34, 62),
           ),
-          _renderInfo("Temp", "18"),
+          _renderInfo("Temp", "${weatherDataCurrent.current.temp}"),
           Container(
             height: 30,
             width: 2,
             color: Color.fromARGB(255, 9, 34, 62),
           ),
-          _renderInfo("Humidity", "79%"),
+          _renderInfo("Humidity", "${weatherDataCurrent.current.humidity}%"),
         ],
       ),
     );

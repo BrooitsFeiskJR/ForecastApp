@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:forecast_app/model/forecast_data_current.dart';
 
 class CurrentTemp extends StatelessWidget {
-  const CurrentTemp({super.key});
+  final WeatherDataCurrent weatherDataCurrent;
+  const CurrentTemp({
+    super.key,
+    required this.weatherDataCurrent,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +20,16 @@ class CurrentTemp extends StatelessWidget {
             color: Color.fromRGBO(49, 57, 87, 1),
             shape: BoxShape.circle,
           ),
-          child: const Icon(
-            Icons.thunderstorm,
-            color: Colors.white,
-            size: 90,
+          child: Image.asset(
+            "assets/weather/${weatherDataCurrent.current.weather![0].icon}.png",
+            height: 120,
+            width: 120,
           ),
         ),
         Column(
           children: [
             Text(
-              "12°C",
+              "${weatherDataCurrent.current.temp!.toInt()}°",
               style: TextStyle(
                 fontSize: 70,
                 color: Colors.blue[200],
@@ -33,9 +38,9 @@ class CurrentTemp extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            const Text(
-              "Rain showers",
-              style: TextStyle(
+            Text(
+              "${weatherDataCurrent.current.weather![0].main}",
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
               ),

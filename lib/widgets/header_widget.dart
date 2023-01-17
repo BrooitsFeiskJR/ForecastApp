@@ -1,9 +1,42 @@
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:forecast_app/controller/global_controller.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
-class Header extends StatelessWidget {
+class Header extends StatefulWidget {
   const Header({super.key});
+
+  @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
+  String city = "Bem vindo! Tenha um otimo dia";
+  final GlobalController globalController =
+      Get.put(GlobalController(), permanent: true);
+
+  String date = DateFormat("yMMMMd").format(DateTime.now());
+
+  @override
+  void initState() {
+    getAddress(
+      globalController.getLattitude().value,
+      globalController.getLongitude().value,
+    );
+
+    super.initState();
+  }
+
+  getAddress(lat, lon) async {
+    List<Placemark> placemark = await placemarkFromCoordinates(lat, lon);
+    Placemark place = placemark[0];
+    setState(() {
+      city = place.administrativeArea!;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +56,7 @@ class Header extends StatelessWidget {
         Column(
           children: [
             Text(
-              'Monday, 12 Feb',
+              date,
               style: TextStyle(
                 color: Colors.grey[400],
               ),
@@ -31,9 +64,9 @@ class Header extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              'United Arab, Dubai',
-              style: TextStyle(
+            Text(
+              city,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

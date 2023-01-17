@@ -20,7 +20,7 @@ class GlobalController extends GetxController {
   }
 
   @override
-  void init() {
+  void onInit() {
     if (_isLoading.isTrue) {
       getLocation();
     } else {
